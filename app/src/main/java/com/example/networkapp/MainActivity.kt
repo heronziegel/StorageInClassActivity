@@ -56,10 +56,10 @@ class MainActivity : AppCompatActivity() {
                 var line: String?
                 while(br.readLine().also { line = it } != null){
                     text.append(line)
-                    text.append('\n')
                 }
                 br.close()
-                downloadComic(text.toString())
+                val jsonObj = JSONObject(text.toString())
+                showComic(jsonObj)
             } catch (e: IOException){
                 e.printStackTrace()
             }
@@ -96,8 +96,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop(){
-        super.onStop()
         saveComic()
+        super.onStop()
     }
 
 
