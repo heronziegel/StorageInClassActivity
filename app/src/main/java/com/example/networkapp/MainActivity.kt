@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     private fun downloadComic (comicId: String) {
         val url = "https://xkcd.com/$comicId/info.0.json"
         requestQueue.add (
-            JsonObjectRequest(url, {showComic(it)}, {
+            JsonObjectRequest(url, {showComic(it); saveComic(it)}, {
             })
         )
     }
@@ -85,10 +85,10 @@ class MainActivity : AppCompatActivity() {
         Picasso.get().load(comicObject.getString("img")).into(comicImageView)
     }
 
-    private fun saveComic(){
+    private fun saveComic(comicObject: JSONObject){
         try {
             val outputStream = FileOutputStream(file)
-            outputStream.write(numberEditText.text.toString().toByteArray())
+            outputStream.write(comicObject.toString().toByteArray())
             outputStream.close()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop(){
-        saveComic()
+        //saveComic()
         super.onStop()
     }
 
